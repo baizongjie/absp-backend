@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const log = require('../logger').getLogger('absProject');
 
-router.post('/createAbsProject', function (req, res, next) {
-    console.log(req.body);
+router.post('/createAbsProject', (req, res, next) => {
+    log.debug(req.body);
     res.end(JSON.stringify({success: true}));
 });
 
-router.get('/hello', function (req, res, next) {
+router.get('/hello', (req, res, next) => {
     res.end(JSON.stringify({success: 'hello world'}));
 });
 
