@@ -22,6 +22,15 @@ app.use((req, res, next) => {
 //解析JSON报文
 app.use(bodyParser.json());
 
+// 设置请求头
+// application/json  接口返回json数据
+// charset=utf-8 解决json数据中中文乱码
+app.use("*", function (request, response, next) {
+    response.writeHead(200, { "Content-Type": "application/json;charset=utf-8" });
+    next();
+});
+
+
 //逻辑处理
 app.get('/', (req, rsp) => {
     rsp.end('hello world!');
@@ -32,25 +41,15 @@ app.use('/api/v1/', absPrj);
 //错误处理
 app.use((err, req, res, next) => {
     log.error(err.stack);
-    res.status(500).send({ error: err.stack });
+    res.status(500).end(JSON.stringify({ error: err.stack }));
     next();
 });
 
 //处理404
 app.use((req, res, next) => {
     log.error('404 error');
-    res.status(404).send({error: '404 错误!'});
+    res.status(404).end(JSON.stringify({error: '404 错误!'}));
 });
-
-// 设置请求头
-// application/json  接口返回json数据
-// charset=utf-8 解决json数据中中文乱码
-app.use("*", function (request, response, next) {
-    log.info('sethead');
-    response.writeHead(200, { "Content-Type": "application/json;charset=utf-8" });
-    next();
-});
-
 
 
 app.listen(9010, function () {
