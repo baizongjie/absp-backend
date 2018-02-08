@@ -47,7 +47,7 @@ fcw.enrollWithAdminCert(helper.makeEnrollmentOptionsUsingCert(), function (enrol
 		const channel = helper.getChannelId();
 		const first_peer = helper.getFirstPeerName(channel);
 
-		var id = "project-bankcomm-000003";
+		var id = "project-bankcomm-8b281660-73e7-4373-b5a9-96e1573e8dff";
 
 		var opts = {
 			peer_urls: [helper.getPeersUrl(first_peer)],
@@ -59,10 +59,8 @@ fcw.enrollWithAdminCert(helper.makeEnrollmentOptionsUsingCert(), function (enrol
 			event_urls: ['grpc://localhost:7053'],
 			cc_args: [
 				id,
-				"projectName",
-				"测试交行项目000003号_新品种",
-				"scale",
-				"100亿元人民币"
+				'underwriters',
+				'33333',
 			]
 		};
 

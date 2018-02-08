@@ -26,7 +26,7 @@ const basicFabricOpt = {
 
 const checkEnroll = failback => {
     if(!enrollFlag){
-        log.error('The server has not enrolled yet...')
+        logger.error('The server has not enrolled yet...')
         failback && failback("NOT enroll");
     }
 }
@@ -73,6 +73,35 @@ module.exports = {
             }
 		});
     },
+    /** 根据ID查询项目 */
+    queryProjectById : (projectId, callback) => {
+        checkEnroll(callback);
+        
+        console.log('---------------------------------------');
+		logger.info('Now we read a project');
+		console.log('---------------------------------------');
+
+		var opts = {
+            ...basicFabricOpt,
+			cc_function: 'get_project_by_id',
+			cc_args: [
+				projectId
+			]
+		};
+
+		fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
+			console.log('---------------------------------------');
+			logger.info('read done. Errors:', (!err) ? 'nope' : err);
+			console.log('---------------------------------------');
+			if (!err && resp!=null && resp.peer_payloads!=null){
+				logger.info('response is:', resp.peer_payloads[0]);
+                console.log('---------------------------------------');
+                callback(null, resp.peer_payloads[0]);
+			}else{
+                callback(err);
+            }
+		});
+    },
     /** 新增项目 */
     createProject: (projectInfo,callback) => {
         checkEnroll(callback);
@@ -80,7 +109,6 @@ module.exports = {
         console.log('---------------------------------------');
 		logger.info('Now we create a project');
 		console.log('---------------------------------------');
-
         
         const id = `project-bankcomm-${uuid.v4()}`;
         const { projectName, scale, basicAssets, initiator, trustee, depositary, agent, assetService, assessor, creditRater, 
@@ -107,13 +135,14 @@ module.exports = {
 				accountant
 			]
 		};
-		fcw.invoke_chaincode(enrollInfo, opts, function (err, resp) {
+		fcw.invoke_chaincode(enrollInfo, opts, (err, resp) => {
             console.log('---------------------------------------');
             logger.info('create project done. Errors:', (!err) ? 'nope' : err);
             console.log('---------------------------------------');
-            callback(err);
+            callback(err, id);
         });
     },
+    /** 删除项目 */
     removeProject: (projectId,callback) => {
         checkEnroll(callback);
 
@@ -129,11 +158,38 @@ module.exports = {
 			]
 		};
 
-		fcw.invoke_chaincode(enrollInfo, opts, function (err, resp) {
+		fcw.invoke_chaincode(enrollInfo, opts, (err, resp) => {
 			console.log('---------------------------------------');
 			logger.info('remove a project done. Errors:', (!err) ? 'nope' : err);
             console.log('---------------------------------------');
             callback(err);
 		});
-    }
+	},
+	/** 修改项目信息 */
+	modifyProjectInfo: (projectInfo, callback) => {
+		checkEnroll(callback);
+
+		console.log('---------------------------------------');
+		logger.info('Now we modify a project');
+		console.log('---------------------------------------');
+
+		//根据chaincode逻辑规则生成修改参数
+		const { projectId, underwriters, ...info } = projectInfo;
+		const modifyArgs = [projectId];
+		for (let key in info) {
+			modifyArgs.push(key, info[key]);
+		}
+		var opts = {
+			...basicFabricOpt,
+			cc_function: 'modify_project',
+			cc_args: modifyArgs
+		};
+
+		fcw.invoke_chaincode(enrollInfo, opts, (err, resp) => {
+			console.log('---------------------------------------');
+			logger.info('create another contract done. Errors:', (!err) ? 'nope' : err);
+			console.log('---------------------------------------');
+			callback(err);
+		});
+	}
 }
