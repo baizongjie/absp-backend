@@ -18,5 +18,5 @@ log4js.configure({
 
 module.exports = {
   /** 获取日志对象 */
-  getLogger : name => log4js.getLogger(name),
-}
+  getLogger: name => log4js.getLogger(name)
+};
