@@ -192,7 +192,6 @@ module.exports = {
     //根据chaincode逻辑规则生成修改参数
     const {
       projectId,
-      underwriters,
       ...info
     } = projectInfo;
     const modifyArgs = [projectId];
