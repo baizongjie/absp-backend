@@ -59,7 +59,7 @@ fcw.enrollWithAdminCert(helper.makeEnrollmentOptionsUsingCert(), function (enrol
 			event_urls: ['grpc://localhost:7053'],
 			cc_args: [
 				id,
-				'underwriters',
+				'underwriter',
 				'33333',
 			]
 		};

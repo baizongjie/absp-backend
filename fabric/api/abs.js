@@ -76,7 +76,7 @@ module.exports = {
     /** 根据ID查询项目 */
     queryProjectById : (projectId, callback) => {
         checkEnroll(callback);
-        
+
         console.log('---------------------------------------');
 		logger.info('Now we read a project');
 		console.log('---------------------------------------');
@@ -109,10 +109,10 @@ module.exports = {
         console.log('---------------------------------------');
 		logger.info('Now we create a project');
 		console.log('---------------------------------------');
-        
+
         const id = `project-bankcomm-${uuid.v4()}`;
-        const { projectName, scale, basicAssets, initiator, trustee, depositary, agent, assetService, assessor, creditRater, 
-            liquiditySupporter, underwriters, lawyer, accountant } = projectInfo;
+        const { projectName, scale, basicAssets, initiator, trustee, depositary, agent, assetService, assessor, creditRater,
+            liquiditySupporter, underwriter, lawyer, accountant } = projectInfo;
 
             const opts = {
             ...basicFabricOpt,
@@ -130,7 +130,7 @@ module.exports = {
 				assessor,
 				creditRater,
 				liquiditySupporter,
-				underwriters,
+				underwriter,
 				lawyer,
 				accountant
 			]
