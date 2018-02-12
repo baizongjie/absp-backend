@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "pm2 start index.js --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"，
+    "stop": "pm2 stop index.js"
   },
   "author": "xiaoBai",
   "license": "ISC",
