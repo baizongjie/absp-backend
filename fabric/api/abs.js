@@ -158,6 +158,31 @@ module.exports = {
       callback(err, id);
     });
   },
+  /** 使用JSON新增项目 */
+  createProjectJson: (projectInfo, callback) => {
+    checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we create a project');
+    console.log('---------------------------------------');
+
+    const id = `project-bankcomm-${uuid.v4()}`;
+    projectInfo.id = id;
+
+    const opts = {
+      ...basicFabricOpt,
+      cc_function: 'create_project_json',
+      cc_args: [
+        JSON.stringify(projectInfo)
+      ]
+    };
+    fcw.invoke_chaincode(enrollInfo, opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('create project done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      callback(err, id);
+    });
+  },
   /** 删除项目 */
   removeProject: (projectId, callback) => {
     checkEnroll(callback);

@@ -7,7 +7,8 @@ absFabricApi.enroll();
 
 router.post('/createAbsProject', (req, res, next) => {
   log.debug(req.body);
-  absFabricApi.createProject(req.body, (err, result) => {
+  // absFabricApi.createProject(req.body, (err, result) => {
+  absFabricApi.createProjectJson(req.body, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
