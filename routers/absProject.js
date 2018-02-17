@@ -65,6 +65,74 @@ router.get('/queryAbsProjectDetail', (req, res, next) => {
   });
 });
 
+router.post('/createLinearWorkflow', (req, res, next) => {
+  log.debug(req.body);
+  absFabricApi.createLinearWorkflow(req.body, (err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(JSON.stringify({ success: true, workflowId: result }));
+    }
+  });
+});
+
+router.get('/queryWorkflowDetail', (req, res, next) => {
+  const workflowId = req.query.pid;
+  console.log(req.query.pid);
+  absFabricApi.queryWorkflowById(workflowId, (err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(result);
+    }
+  });
+});
+
+router.get('/queryWorkflowList', (req, res, next) => {
+  absFabricApi.queryAllWorkflows((err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(result);
+    }
+  });
+});
+
+router.post('/modifyWorkflow', (req, res, next) => {
+  log.debug(req.body);
+  absFabricApi.modifyWorkflowInfo(req.body, err => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(JSON.stringify({ success: true }));
+    }
+  });
+});
+
+router.post('/enableWorkflow', (req, res, next) => {
+  const workflowId = req.query.pid;
+  console.log(req.query.pid);
+  absFabricApi.enableWorkflow(workflowId, err => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(JSON.stringify({ success: true }));
+    }
+  });
+});
+
+router.post('/disableWorkflow', (req, res, next) => {
+  const workflowId = req.query.pid;
+  console.log(req.query.pid);
+  absFabricApi.disableWorkflow(workflowId, err => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(JSON.stringify({ success: true }));
+    }
+  });
+});
+
 router.get('/hello', (req, res, next) => {
   res.end(JSON.stringify({ success: 'hello world' }));
 });
