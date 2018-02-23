@@ -109,10 +109,9 @@ router.post('/modifyWorkflow', (req, res, next) => {
   });
 });
 
-router.post('/enableWorkflow', (req, res, next) => {
-  const workflowId = req.query.pid;
-  console.log(req.query.pid);
-  absFabricApi.enableWorkflow(workflowId, err => {
+router.post('/enableOrDisableWorkflow', (req, res, next) => {
+  log.debug(req.body);
+  absFabricApi.enableOrDisableWorkflow(req.body, err => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -121,14 +120,78 @@ router.post('/enableWorkflow', (req, res, next) => {
   });
 });
 
-router.post('/disableWorkflow', (req, res, next) => {
-  const workflowId = req.query.pid;
+router.post('/startProcess', (req, res, next) => {
+  log.debug(req.body);
+  absFabricApi.startProcess(req.body, (err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(JSON.stringify({ success: true, processId: result }));
+    }
+  });
+});
+
+router.get('/queryProcessDetail', (req, res, next) => {
+  const processId = req.query.pid;
   console.log(req.query.pid);
-  absFabricApi.disableWorkflow(workflowId, err => {
+  absFabricApi.queryProcessById(processId, (err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(result);
+    }
+  });
+});
+
+router.post('/queryProcessLogs', (req, res, next) => {
+  const processId = req.query.pid;
+  absFabricApi.queryProcessLogs(processId, (err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(result);
+    }
+  });
+});
+
+router.post('/transferProcess', (req, res, next) => {
+  log.debug(req.body);
+  absFabricApi.transferProcess(req.body, err => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
       res.end(JSON.stringify({ success: true }));
+    }
+  });
+});
+
+router.post('/cancelProcess', (req, res, next) => {
+  log.debug(req.body);
+  absFabricApi.cancelProcess(req.body.processId, err => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(JSON.stringify({ success: true }));
+    }
+  });
+});
+
+router.get('/queryTodoList', (req, res, next) => {
+  absFabricApi.queryTodoList((err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(result);
+    }
+  });
+});
+
+router.get('/queryDoneList', (req, res, next) => {
+  absFabricApi.queryDoneList((err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(result);
     }
   });
 });

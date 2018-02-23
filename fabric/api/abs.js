@@ -354,52 +354,231 @@ module.exports = {
       callback(err);
     });
   },
-  /** 启用工作流 */
-  enableWorkflow: (workflowId, callback) => {
+  /** 启用或禁用工作流 */
+  enableOrDisableWorkflow: (workflowInfo, callback) => {
     checkEnroll(callback);
 
     console.log('---------------------------------------');
-    logger.info('Now we enable a workflow');
+    logger.info('Now we enable or disable a workflow');
     console.log('---------------------------------------');
+
+    const {
+      workflowId,
+      enabled
+    } = workflowInfo;
+
+    var enabledStr = enabled ? "true" : "false";
 
     var opts = {
       ...basicFabricOpt,
       cc_function: 'enable_or_disable_workflow',
       cc_args: [
         workflowId,
-        "true"
+        enabledStr
       ]
     };
 
     fcw.invoke_chaincode(enrollInfo, opts, (err, resp) => {
       console.log('---------------------------------------');
-      logger.info('enable a workflow done. Errors:', (!err) ? 'nope' : err);
+      logger.info('enable or disable a workflow done. Errors:', (!err) ? 'nope' : err);
       console.log('---------------------------------------');
       callback(err);
     });
   },
-  /** 禁用用工作流 */
-  disableWorkflow: (workflowId, callback) => {
+  /** 开始一个流程 */
+  startProcess: (processInfo, callback) => {
     checkEnroll(callback);
 
     console.log('---------------------------------------');
-    logger.info('Now we disable a workflow');
+    logger.info('Now we start a process');
+    console.log('---------------------------------------');
+
+    const id = `${processInfo.workflowId}:process-${uuid.v4()}`;
+    processInfo.id = id;
+
+    const opts = {
+      ...basicFabricOpt,
+      cc_function: 'start_process',
+      cc_args: [
+        JSON.stringify(processInfo)
+      ]
+    };
+    fcw.invoke_chaincode(enrollInfo, opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('start a process done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      callback(err, id);
+    });
+  },
+  /** 根据ID查询流程实例 */
+  queryProcessById: (processId, callback) => {
+    checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we query a process');
     console.log('---------------------------------------');
 
     var opts = {
       ...basicFabricOpt,
-      cc_function: 'enable_or_disable_workflow',
+      cc_function: 'get_process_by_id',
       cc_args: [
-        workflowId,
-        "false"
+        processId
+      ]
+    };
+
+    fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('query a process done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      if (!err && resp != null && resp.peer_payloads != null) {
+        logger.info('response is:', resp.peer_payloads[0]);
+        console.log('---------------------------------------');
+        callback(null, resp.peer_payloads[0]);
+      } else {
+        callback(err);
+      }
+    });
+  },
+  /** 查询流程日志 */
+  queryProcessLogs: (processId, callback) => {
+    checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we query process logs');
+    console.log('---------------------------------------');
+
+    const opts = {
+      ...basicFabricOpt,
+      cc_function: 'query_logs_by_process_id',
+      cc_args: [
+        processId
+      ]
+    };
+    fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('query process logs done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      if (!err && resp != null && resp.peer_payloads != null) {
+        logger.info('response is:', resp.peer_payloads[0]);
+        callback(null, resp.peer_payloads[0]);
+        console.log('---------------------------------------');
+      } else {
+        callback(err);
+      }
+    });
+  },
+  /** 流程实例运行/传递 */
+  transferProcess: (transferInfo, callback) => {
+    checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we transfer process');
+    console.log('---------------------------------------');
+
+    const {
+      processId,
+      nextNodeId,
+      nextOwner
+    } = transferInfo;
+
+    var opts = {
+      ...basicFabricOpt,
+      cc_function: 'transfer_process',
+      cc_args: [
+        processId,
+        nextNodeId,
+        nextOwner
       ]
     };
 
     fcw.invoke_chaincode(enrollInfo, opts, (err, resp) => {
       console.log('---------------------------------------');
-      logger.info('disable a workflow done. Errors:', (!err) ? 'nope' : err);
+      logger.info('transfer process done. Errors:', (!err) ? 'nope' : err);
       console.log('---------------------------------------');
       callback(err);
+    });
+  },
+  /** 取消流程实例 */
+  cancelProcess: (processId, callback) => {
+    checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we cancel a process');
+    console.log('---------------------------------------');
+
+    var opts = {
+      ...basicFabricOpt,
+      cc_function: 'cancel_process',
+      cc_args: [
+        processId
+      ]
+    };
+
+    fcw.invoke_chaincode(enrollInfo, opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('cancel a process done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      callback(err);
+    });
+  },
+  /** 查询待办流程列表 */
+  queryTodoList: callback => {
+    // TODO 处理分页条件
+    checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we query todo list');
+    console.log('---------------------------------------');
+
+    const opts = {
+      ...basicFabricOpt,
+      cc_function: 'query_todo_process',
+      cc_args: [
+        "100",
+        "0"
+      ]
+    };
+    fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('query todo list done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      if (!err && resp != null && resp.peer_payloads != null) {
+        logger.info('response is:', resp.peer_payloads[0]);
+        callback(null, resp.peer_payloads[0]);
+        console.log('---------------------------------------');
+      } else {
+        callback(err);
+      }
+    });
+  },
+  /** 查询已办流程列表 */
+  queryDoneList: callback => {
+    // TODO 处理分页条件
+    checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we query done list');
+    console.log('---------------------------------------');
+
+    const opts = {
+      ...basicFabricOpt,
+      cc_function: 'query_done_process',
+      cc_args: [
+        "100",
+        "0"
+      ]
+    };
+    fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('query done list done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      if (!err && resp != null && resp.peer_payloads != null) {
+        logger.info('response is:', resp.peer_payloads[0]);
+        callback(null, resp.peer_payloads[0]);
+        console.log('---------------------------------------');
+      } else {
+        callback(err);
+      }
     });
   }
 }
