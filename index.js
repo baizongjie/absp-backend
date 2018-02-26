@@ -52,6 +52,10 @@ app.use((req, res, next) => {
   res.status(404).end(JSON.stringify({ error: '404 错误!' }));
 });
 
+process.on('uncaughtException', err => {
+  log.error(err);
+})
+
 app.listen(9010, function() {
   log.info('Express is listening to http://localhost:9010');
 });
