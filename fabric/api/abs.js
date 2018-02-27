@@ -48,7 +48,6 @@ module.exports = {
   },
   /** 查询列表 */
   queryAllProjects: callback => {
-    // TODO 处理分页条件
     checkEnroll(callback);
 
     console.log('---------------------------------------');
@@ -59,8 +58,7 @@ module.exports = {
       ...basicFabricOpt,
       cc_function: 'query_all_projects',
       cc_args: [
-        "100",
-        "0"
+
       ]
     };
     fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
@@ -307,8 +305,6 @@ module.exports = {
       ...basicFabricOpt,
       cc_function: 'query_all_workflows',
       cc_args: [
-        "100",
-        "0"
       ]
     };
     fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
@@ -534,8 +530,6 @@ module.exports = {
       ...basicFabricOpt,
       cc_function: 'query_todo_process',
       cc_args: [
-        "100",
-        "0"
       ]
     };
     fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
@@ -564,8 +558,6 @@ module.exports = {
       ...basicFabricOpt,
       cc_function: 'query_done_process',
       cc_args: [
-        "100",
-        "0"
       ]
     };
     fcw.query_chaincode(enrollInfo, opts, (err, resp) => {
