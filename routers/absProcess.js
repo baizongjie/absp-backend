@@ -27,7 +27,7 @@ router.get('/queryProcessDetail', (req, res, next) => {
   });
 });
 
-router.post('/queryProcessLogs', (req, res, next) => {
+router.get('/queryProcessLogs', (req, res, next) => {
   const processId = req.query.pid;
   processApi.queryProcessLogs(processId, (err, result) => {
     if (err) {
