@@ -13,7 +13,8 @@ log4js.configure({
   },
   categories: {
     default: { appenders: ['console', 'file'], level: 'debug' }
-  }
+  },
+  pm2: true
 });
 
 module.exports = {
