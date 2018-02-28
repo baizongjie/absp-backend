@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --watch",
+    "start": "pm2 start index.js --name='absp-backend'",
+    "stop": "pm2 stop absp-backend && pm2 delete absp-backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "xiaoBai",
