@@ -1,10 +1,8 @@
 const logger = require('../../logger').getLogger('abs_fabric_api');
 const uuid = require('node-uuid')
 
-const helper = require('../utils/helper'); //set the config file name here
-const fcw = require('../utils/fc_wrangler')({
-  block_delay: helper.func.getBlockDelay()
-}, logger);
+const helper = require('../utils/helper').func; //set the config file name here
+const fcw = require('../utils/fc_wrangler').func;
 
 const enroll = require('./enroll');
 const basic = require('./basic');

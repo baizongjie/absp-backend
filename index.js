@@ -4,7 +4,10 @@ const bodyParser = require('body-parser');
 const log = require('./logger').getLogger('main');
 
 const demo = require('./routers/demo');
+const absEnroll = require('./fabric/api/enroll');
 const absPrj = require('./routers/absProject');
+const absWorkflow = require('./routers/absWorkflow');
+const absProcess = require('./routers/absProcess');
 
 function getClientIp(req) {
   return (
@@ -38,6 +41,8 @@ app.get('/', (req, rsp) => {
 });
 app.use('/', demo);
 app.use('/api/v1/', absPrj);
+app.use('/api/v1/', absWorkflow);
+app.use('/api/v1/', absProcess);
 
 //错误处理
 app.use((err, req, res, next) => {
@@ -59,3 +64,5 @@ process.on('uncaughtException', err => {
 app.listen(9010, function() {
   log.info('Express is listening to http://localhost:9010');
 });
+
+absEnroll.enroll();
