@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const log = require('../logger').getLogger('absProject');
-const absFabricApi = require('../fabric/api/abs');
+const enrollApi = require('../fabric/api/enroll');
+const projectApi = require('../fabric/api/project');
+const workflowApi = require('../fabric/api/workflow');
+const processApi = require('../fabric/api/process');
 
-absFabricApi.enroll();
+enrollApi.enroll();
 
 router.post('/createAbsProject', (req, res, next) => {
   log.debug(req.body);
-  // absFabricApi.createProject(req.body, (err, result) => {
-  absFabricApi.createProjectJson(req.body, (err, result) => {
+  // projectApi.createProject(req.body, (err, result) => {
+  projectApi.createProjectJson(projectApi.getEnrollInfo(), req.body, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -22,7 +25,7 @@ router.post('/removeAbsProject', (req, res, next) => {
   if (!projectId) {
     res.end(JSON.stringify({ success: false, error: 'no projectId' }));
   } else {
-    absFabricApi.removeProject(projectId, err => {
+    projectApi.removeProject(projectId, err => {
       if (err) {
         res.end(JSON.stringify({ success: false, error: err }));
       } else {
@@ -34,7 +37,7 @@ router.post('/removeAbsProject', (req, res, next) => {
 
 router.post('/modifyAbsProject', (req, res, next) => {
   log.debug(req.body);
-  absFabricApi.modifyProjectInfo(req.body, err => {
+  projectApi.modifyProjectInfo(req.body, err => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -44,7 +47,7 @@ router.post('/modifyAbsProject', (req, res, next) => {
 });
 
 router.get('/queryAbsProjectList', (req, res, next) => {
-  absFabricApi.queryAllProjects((err, result) => {
+  projectApi.queryAllProjects((err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -56,7 +59,7 @@ router.get('/queryAbsProjectList', (req, res, next) => {
 router.get('/queryAbsProjectDetail', (req, res, next) => {
   const projectId = req.query.pid;
   console.log(req.query.pid);
-  absFabricApi.queryProjectById(projectId, (err, result) => {
+  projectApi.queryProjectById(projectId, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -67,7 +70,7 @@ router.get('/queryAbsProjectDetail', (req, res, next) => {
 
 router.post('/createLinearWorkflow', (req, res, next) => {
   log.debug(req.body);
-  absFabricApi.createLinearWorkflow(req.body, (err, result) => {
+  workflowApi.createLinearWorkflow(req.body, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -79,7 +82,7 @@ router.post('/createLinearWorkflow', (req, res, next) => {
 router.get('/queryWorkflowDetail', (req, res, next) => {
   const workflowId = req.query.pid;
   console.log(req.query.pid);
-  absFabricApi.queryWorkflowById(workflowId, (err, result) => {
+  workflowApi.queryWorkflowById(workflowId, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -89,7 +92,7 @@ router.get('/queryWorkflowDetail', (req, res, next) => {
 });
 
 router.get('/queryWorkflowList', (req, res, next) => {
-  absFabricApi.queryAllWorkflows((err, result) => {
+  workflowApi.queryAllWorkflows((err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -100,7 +103,7 @@ router.get('/queryWorkflowList', (req, res, next) => {
 
 router.post('/modifyWorkflow', (req, res, next) => {
   log.debug(req.body);
-  absFabricApi.modifyWorkflowInfo(req.body, err => {
+  workflowApi.modifyWorkflowInfo(req.body, err => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -111,7 +114,7 @@ router.post('/modifyWorkflow', (req, res, next) => {
 
 router.post('/enableOrDisableWorkflow', (req, res, next) => {
   log.debug(req.body);
-  absFabricApi.enableOrDisableWorkflow(req.body, err => {
+  workflowApi.enableOrDisableWorkflow(req.body, err => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -122,7 +125,7 @@ router.post('/enableOrDisableWorkflow', (req, res, next) => {
 
 router.post('/startProcess', (req, res, next) => {
   log.debug(req.body);
-  absFabricApi.startProcess(req.body, (err, result) => {
+  processApi.startProcess(req.body, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -134,7 +137,7 @@ router.post('/startProcess', (req, res, next) => {
 router.get('/queryProcessDetail', (req, res, next) => {
   const processId = req.query.pid;
   console.log(req.query.pid);
-  absFabricApi.queryProcessById(processId, (err, result) => {
+  processApi.queryProcessById(processId, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -145,7 +148,7 @@ router.get('/queryProcessDetail', (req, res, next) => {
 
 router.post('/queryProcessLogs', (req, res, next) => {
   const processId = req.query.pid;
-  absFabricApi.queryProcessLogs(processId, (err, result) => {
+  processApi.queryProcessLogs(processId, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -156,7 +159,7 @@ router.post('/queryProcessLogs', (req, res, next) => {
 
 router.post('/transferProcess', (req, res, next) => {
   log.debug(req.body);
-  absFabricApi.transferProcess(req.body, err => {
+  processApi.transferProcess(req.body, err => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -167,7 +170,7 @@ router.post('/transferProcess', (req, res, next) => {
 
 router.post('/cancelProcess', (req, res, next) => {
   log.debug(req.body);
-  absFabricApi.cancelProcess(req.body.processId, err => {
+  processApi.cancelProcess(req.body.processId, err => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -177,7 +180,7 @@ router.post('/cancelProcess', (req, res, next) => {
 });
 
 router.get('/queryTodoList', (req, res, next) => {
-  absFabricApi.queryTodoList((err, result) => {
+  processApi.queryTodoList((err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
@@ -187,7 +190,7 @@ router.get('/queryTodoList', (req, res, next) => {
 });
 
 router.get('/queryDoneList', (req, res, next) => {
-  absFabricApi.queryDoneList((err, result) => {
+  processApi.queryDoneList((err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {
