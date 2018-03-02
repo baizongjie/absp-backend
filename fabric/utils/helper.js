@@ -398,14 +398,21 @@ helper.getBlockDelay = function() {
 
 // get key value store location
 helper.getKvsPath = function(opts) {
+  /*
   const id = helper.makeUniqueId();
   const default_path = path.join(os.homedir(), '.hfc-key-store/', id);
 
   if (opts && opts.going2delete) { //if this is for a delete, return default so we don't wipe a kvs someone setup
     return default_path; //do the default one
   }
+  */
+  const id = helper.makeUniqueId();
+  const kvs_path = helper.creds.client.credentialStore.path;
+  const default_path = path.join(__dirname, '../config/' + kvs_path + '/');
+  return default_path
 
   // -- Using Custom KVS -- //
+  /*
   if (helper.creds.client && helper.creds.client.credentialStore) {
     const kvs_path = helper.creds.client.credentialStore.path;
     const ret = path.join(__dirname, '../config/' + kvs_path + '/');
@@ -414,6 +421,7 @@ helper.getKvsPath = function(opts) {
   } else {
     return default_path; //make a new kvs folder in the home dir
   }
+  */
 
   // copy over private and public keys to the hfc key value store
   function copy_keys_over(custom_path) {
