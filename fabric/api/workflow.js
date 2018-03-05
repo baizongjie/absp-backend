@@ -18,12 +18,12 @@ module.exports = {
 
     const id = `linear-workflow-${uuid.v4()}`;
     workflowInfo.workflowDef.id = id;
-    workflowInfo.createTime = new Date().toLocaleString("zh-CN");
+    workflowInfo.workflowDef.createTime = new Date().toLocaleString("zh-CN");
 
-    var args = [JSON.stringify(workflowInfo.workflowDef)]
-    for (let node in workflowInfo.nodeList){
-      args.concat(JSON.stringify(node))
-    }
+    var args = [JSON.stringify(workflowInfo.workflowDef)];
+    workflowInfo.nodeList.forEach(element => {
+      args.push(JSON.stringify(element))
+    });
 
     const opts = {
       ...basic.getBasicFabricOpt(),
