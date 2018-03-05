@@ -18,6 +18,7 @@ module.exports = {
 
     const id = `${processInfo.workflowId}:process-${uuid.v4()}`;
     processInfo.id = id;
+    processInfo.createTime = new Date().toLocaleString("zh-CN");
 
     const opts = {
       ...basic.getBasicFabricOpt(),
@@ -110,7 +111,8 @@ module.exports = {
       cc_args: [
         processId,
         nextNodeId,
-        nextOwner
+        nextOwner,
+        new Date().toLocaleString("zh-CN")
       ]
     };
 
@@ -133,7 +135,8 @@ module.exports = {
       ...basic.getBasicFabricOpt(),
       cc_function: 'cancel_process',
       cc_args: [
-        processId
+        processId,
+        new Date().toLocaleString("zh-CN")
       ]
     };
 

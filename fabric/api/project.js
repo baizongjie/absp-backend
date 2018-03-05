@@ -65,7 +65,7 @@ module.exports = {
       }
     });
   },
-  /** 新增项目 */
+  /** 使用JSON新增项目 */
   createProject: (projectInfo, callback) => {
     enroll.checkEnroll(callback);
 
@@ -74,61 +74,8 @@ module.exports = {
     console.log('---------------------------------------');
 
     const id = `project-bankcomm-${uuid.v4()}`;
-    const {
-      projectName,
-      scale,
-      basicAssets,
-      initiator,
-      trustee,
-      depositary,
-      agent,
-      assetService,
-      assessor,
-      creditRater,
-      liquiditySupporter,
-      underwriter,
-      lawyer,
-      accountant
-    } = projectInfo;
-
-    const opts = {
-      ...basic.getBasicFabricOpt(),
-      cc_function: 'create_project',
-      cc_args: [
-        id,
-        projectName,
-        scale,
-        basicAssets,
-        initiator,
-        trustee,
-        depositary,
-        agent,
-        assetService,
-        assessor,
-        creditRater,
-        liquiditySupporter,
-        underwriter,
-        lawyer,
-        accountant
-      ]
-    };
-    fcw.invoke_chaincode(enroll.getEnrollInfo(), opts, (err, resp) => {
-      console.log('---------------------------------------');
-      logger.info('create project done. Errors:', (!err) ? 'nope' : err);
-      console.log('---------------------------------------');
-      callback(err, id);
-    });
-  },
-  /** 使用JSON新增项目 */
-  createProjectJson: (projectInfo, callback) => {
-    enroll.checkEnroll(callback);
-
-    console.log('---------------------------------------');
-    logger.info('Now we create a project');
-    console.log('---------------------------------------');
-
-    const id = `project-bankcomm-${uuid.v4()}`;
     projectInfo.id = id;
+    projectInfo.createTime = new Date().toLocaleString("zh-CN");
 
     const opts = {
       ...basic.getBasicFabricOpt(),
@@ -180,7 +127,7 @@ module.exports = {
       projectId,
       ...info
     } = projectInfo;
-    const modifyArgs = [projectId];
+    const modifyArgs = [projectId, new Date().toLocaleString("zh-CN")];
     for (let key in info) {
       modifyArgs.push(key, info[key]);
     }

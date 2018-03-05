@@ -6,8 +6,7 @@ const projectApi = require('../fabric/api/project');
 
 router.post('/createAbsProject', (req, res, next) => {
   log.debug(req.body);
-  // projectApi.createProject(req.body, (err, result) => {
-  projectApi.createProjectJson(req.body, (err, result) => {
+  projectApi.createProject(req.body, (err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
     } else {

@@ -18,6 +18,7 @@ module.exports = {
 
     const id = `linear-workflow-${uuid.v4()}`;
     workflowInfo.workflowDef.id = id;
+    workflowInfo.createTime = new Date().toLocaleString("zh-CN");
 
     var args = [JSON.stringify(workflowInfo.workflowDef)]
     for (let node in workflowInfo.nodeList){
@@ -106,7 +107,7 @@ module.exports = {
       workflowId,
       ...info
     } = workflowInfo;
-    const modifyArgs = [workflowId];
+    const modifyArgs = [workflowId, new Date().toLocaleString("zh-CN")];
     for (let key in info) {
       modifyArgs.push(key, info[key]);
     }
