@@ -144,7 +144,8 @@ module.exports = {
       cc_function: 'enable_or_disable_workflow',
       cc_args: [
         workflowId,
-        enabledStr
+        enabledStr,
+        new Date().toLocaleString("zh-CN")
       ]
     };
 
