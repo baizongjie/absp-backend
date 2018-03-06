@@ -20,8 +20,8 @@ module.exports = {
     workflowInfo.workflowDef.id = id;
     workflowInfo.workflowDef.createTime = new Date().toLocaleString("zh-CN");
 
-    var args = [JSON.stringify(workflowInfo.workflowDef)];
-    workflowInfo.nodeList.forEach(element => {
+    const args = [JSON.stringify(workflowInfo.workflowDef)];
+    workflowInfo.nodeList.forEach((element) => {
       args.push(JSON.stringify(element))
     });
 
