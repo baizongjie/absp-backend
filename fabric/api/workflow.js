@@ -94,6 +94,34 @@ module.exports = {
       }
     });
   },
+  /** 查询可发起的工作流列表 */
+  queryAccessableWorkflows: callback => {
+    // TODO 处理分页条件
+    enroll.checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we query accessable workflows');
+    console.log('---------------------------------------');
+
+    const opts = {
+      ...basic.getBasicFabricOpt(),
+      cc_function: 'query_accessable_workflows',
+      cc_args: [
+      ]
+    };
+    fcw.query_chaincode(enroll.getEnrollInfo(), opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('query accessable workflows done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      if (!err && resp != null && resp.peer_payloads != null) {
+        logger.info('response is:', resp.peer_payloads[0]);
+        callback(null, resp.peer_payloads[0]);
+        console.log('---------------------------------------');
+      } else {
+        callback(err);
+      }
+    });
+  },
   /** 修改工作流信息 */
   modifyWorkflowInfo: (workflowInfo, callback) => {
     enroll.checkEnroll(callback);

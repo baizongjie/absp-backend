@@ -37,6 +37,16 @@ router.get('/queryWorkflowList', (req, res, next) => {
   });
 });
 
+router.get('/queryAccessableWorkflows', (req, res, next) => {
+  workflowApi.queryAccessableWorkflows((err, result) => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(result);
+    }
+  });
+});
+
 router.post('/modifyWorkflow', (req, res, next) => {
   log.debug(req.body);
   workflowApi.modifyWorkflowInfo(req.body, err => {
