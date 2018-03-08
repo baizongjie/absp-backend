@@ -8,6 +8,7 @@ const absEnroll = require('./fabric/api/enroll');
 const absPrj = require('./routers/absProject');
 const absWorkflow = require('./routers/absWorkflow');
 const absProcess = require('./routers/absProcess');
+const fileUpload = require('./routers/fileUpload');
 
 function getClientIp(req) {
   return (
@@ -43,6 +44,7 @@ app.use('/', demo);
 app.use('/api/v1/', absPrj);
 app.use('/api/v1/', absWorkflow);
 app.use('/api/v1/', absProcess);
+app.use('/api/v1/', fileUpload);
 
 //错误处理
 app.use((err, req, res, next) => {
