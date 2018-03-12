@@ -79,7 +79,7 @@ module.exports = {
 
     const opts = {
       ...basic.getBasicFabricOpt(),
-      cc_function: 'create_project_json',
+      cc_function: 'create_project',
       cc_args: [
         JSON.stringify(projectInfo)
       ]
