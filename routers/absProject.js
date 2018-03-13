@@ -4,7 +4,7 @@ const log = require('../logger').getLogger('absProject');
 const enrollApi = require('../fabric/api/enroll');
 const projectApi = require('../fabric/api/project');
 
-router.post('/createAbsProject', (req, res, next) => {
+router.post('/project/create', (req, res, next) => {
   log.debug(req.body);
   projectApi.createProject(req.body, (err, result) => {
     if (err) {
@@ -15,7 +15,7 @@ router.post('/createAbsProject', (req, res, next) => {
   });
 });
 
-router.post('/removeAbsProject', (req, res, next) => {
+router.post('/project/remove', (req, res, next) => {
   const { projectId } = req.body;
   if (!projectId) {
     res.end(JSON.stringify({ success: false, error: 'no projectId' }));
@@ -30,7 +30,7 @@ router.post('/removeAbsProject', (req, res, next) => {
   }
 });
 
-router.post('/modifyAbsProject', (req, res, next) => {
+router.post('/project/modify', (req, res, next) => {
   log.debug(req.body);
   projectApi.modifyProjectInfo(req.body, err => {
     if (err) {
@@ -41,7 +41,7 @@ router.post('/modifyAbsProject', (req, res, next) => {
   });
 });
 
-router.get('/queryAbsProjectList', (req, res, next) => {
+router.get('/project/list', (req, res, next) => {
   projectApi.queryAllProjects((err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
@@ -51,7 +51,7 @@ router.get('/queryAbsProjectList', (req, res, next) => {
   });
 });
 
-router.get('/queryAbsProjectDetail', (req, res, next) => {
+router.get('/project/detail', (req, res, next) => {
   const projectId = req.query.pid;
   console.log(req.query.pid);
   projectApi.queryProjectById(projectId, (err, result) => {

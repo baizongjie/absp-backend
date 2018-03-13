@@ -4,7 +4,7 @@ const log = require('../logger').getLogger('absProject');
 const enrollApi = require('../fabric/api/enroll');
 const workflowApi = require('../fabric/api/workflow');
 
-router.post('/createLinearWorkflow', (req, res, next) => {
+router.post('/workflow/linear/create', (req, res, next) => {
   log.debug(req.body);
   workflowApi.createLinearWorkflow(req.body, (err, result) => {
     if (err) {
@@ -15,7 +15,7 @@ router.post('/createLinearWorkflow', (req, res, next) => {
   });
 });
 
-router.get('/queryWorkflowDetail', (req, res, next) => {
+router.get('/workflow/detail', (req, res, next) => {
   const workflowId = req.query.pid;
   console.log(req.query.pid);
   workflowApi.queryWorkflowById(workflowId, (err, result) => {
@@ -27,7 +27,7 @@ router.get('/queryWorkflowDetail', (req, res, next) => {
   });
 });
 
-router.get('/queryWorkflowList', (req, res, next) => {
+router.get('/workflow/all/list', (req, res, next) => {
   workflowApi.queryAllWorkflows((err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
@@ -37,7 +37,7 @@ router.get('/queryWorkflowList', (req, res, next) => {
   });
 });
 
-router.get('/queryAccessableWorkflows', (req, res, next) => {
+router.get('/workflow/access/list', (req, res, next) => {
   workflowApi.queryAccessableWorkflows((err, result) => {
     if (err) {
       res.end(JSON.stringify({ success: false, error: err }));
@@ -47,7 +47,7 @@ router.get('/queryAccessableWorkflows', (req, res, next) => {
   });
 });
 
-router.post('/modifyWorkflow', (req, res, next) => {
+router.post('/workflow/modify', (req, res, next) => {
   log.debug(req.body);
   workflowApi.modifyWorkflowInfo(req.body, err => {
     if (err) {
@@ -58,7 +58,7 @@ router.post('/modifyWorkflow', (req, res, next) => {
   });
 });
 
-router.post('/enableOrDisableWorkflow', (req, res, next) => {
+router.post('/workflow/enabled', (req, res, next) => {
   log.debug(req.body);
   workflowApi.enableOrDisableWorkflow(req.body, err => {
     if (err) {
