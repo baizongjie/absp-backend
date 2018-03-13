@@ -49,6 +49,17 @@ router.post('/transferProcess', (req, res, next) => {
   });
 });
 
+router.post('/returnProcess', (req, res, next) => {
+  log.debug(req.body);
+  processApi.returnProcess(req.body, err => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(JSON.stringify({ success: true }));
+    }
+  });
+});
+
 router.post('/cancelProcess', (req, res, next) => {
   log.debug(req.body);
   processApi.cancelProcess(req.body.processId, err => {
