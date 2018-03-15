@@ -60,6 +60,17 @@ router.post('/process/return', (req, res, next) => {
   });
 });
 
+router.post('/process/withdraw', (req, res, next) => {
+  log.debug(req.body);
+  processApi.withdrawProcess(req.body, err => {
+    if (err) {
+      res.end(JSON.stringify({ success: false, error: err }));
+    } else {
+      res.end(JSON.stringify({ success: true }));
+    }
+  });
+});
+
 router.post('/process/cancel', (req, res, next) => {
   log.debug(req.body);
   processApi.cancelProcess(req.body.processId, err => {

@@ -151,6 +151,34 @@ module.exports = {
       callback(err);
     });
   },
+  /** 流程实例撤回 */
+  withdrawProcess: (returnInfo, callback) => {
+    enroll.checkEnroll(callback);
+
+    console.log('---------------------------------------');
+    logger.info('Now we withdraw process');
+    console.log('---------------------------------------');
+
+    const {
+      processId,
+    } = returnInfo;
+
+    var opts = {
+      ...basic.getBasicFabricOpt(),
+      cc_function: 'withdraw_process',
+      cc_args: [
+        processId,
+        new Date().toLocaleString("zh-CN")
+      ]
+    };
+
+    fcw.invoke_chaincode(enroll.getEnrollInfo(), opts, (err, resp) => {
+      console.log('---------------------------------------');
+      logger.info('withdraw process done. Errors:', (!err) ? 'nope' : err);
+      console.log('---------------------------------------');
+      callback(err);
+    });
+  },
   /** 取消流程实例 */
   cancelProcess: (processId, callback) => {
     enroll.checkEnroll(callback);
