@@ -13,6 +13,7 @@ const query_cc = require('./query_cc.js')(logger);
 const query_peer = require('./query_peer.js')(logger);
 const enrollment = require('./enrollment.js')(logger);
 const ha = require('./high_availability.js')(logger);
+const event_cc = require('./event_cc.js')(logger);
 let fcw = {};
 
 // ------------------------------------------------------------------------
@@ -20,17 +21,17 @@ let fcw = {};
 // ------------------------------------------------------------------------
 
 // Install Chaincode
-fcw.install_chaincode = function(obj, options, cb_done) {
+fcw.install_chaincode = function (obj, options, cb_done) {
   deploy_cc.install_chaincode(obj, options, cb_done);
 };
 
 // Instantiate Chaincode
-fcw.instantiate_chaincode = function(obj, options, cb_done) {
+fcw.instantiate_chaincode = function (obj, options, cb_done) {
   deploy_cc.instantiate_chaincode(obj, options, cb_done);
 };
 
 // Upgrade Chaincode
-fcw.upgrade_chaincode = function(obj, options, cb_done) {
+fcw.upgrade_chaincode = function (obj, options, cb_done) {
   deploy_cc.upgrade_chaincode(obj, options, cb_done);
 };
 
@@ -56,9 +57,9 @@ fcw.upgrade_chaincode = function(obj, options, cb_done) {
 				ordered_hook: function(error, res){},	<optional>
 	}
 */
-fcw.invoke_chaincode = function(obj, options, cb_done) {
+fcw.invoke_chaincode = function (obj, options, cb_done) {
   options.target_event_url = ha.get_event_url(options); //get the desired event url to use
-  invoke_cc.invoke_chaincode(obj, options, function(err, resp) {
+  invoke_cc.invoke_chaincode(obj, options, function (err, resp) {
     if (err != null) { //looks like an error with the request
       if (ha.switch_peer(obj, options) == null) { //try another peer
         logger.info('Retrying invoke on different peer');
@@ -91,8 +92,8 @@ fcw.invoke_chaincode = function(obj, options, cb_done) {
 				},
 	}
 */
-fcw.query_chaincode = function(obj, options, cb_done) {
-  query_cc.query_chaincode(obj, options, function(err, resp) {
+fcw.query_chaincode = function (obj, options, cb_done) {
+  query_cc.query_chaincode(obj, options, function (err, resp) {
     if (err != null) { //looks like an error with the request
       if (ha.switch_peer(obj, options) == null) { //try another peer
         logger.info('Retrying query on different peer');
@@ -113,9 +114,9 @@ fcw.query_chaincode = function(obj, options, cb_done) {
 // ------------------------------------------------------------------------
 
 // enroll an enrollId with the ca
-fcw.enroll = function(options, cb_done) {
+fcw.enroll = function (options, cb_done) {
   let opts = ha.get_ca(options);
-  enrollment.enroll(opts, function(err, resp) {
+  enrollment.enroll(opts, function (err, resp) {
     if (err != null) {
       opts = ha.get_next_ca(options); //try another CA
       if (opts) {
@@ -132,7 +133,7 @@ fcw.enroll = function(options, cb_done) {
 };
 
 // enroll with admin cert
-fcw.enrollWithAdminCert = function(options, cb_done) {
+fcw.enrollWithAdminCert = function (options, cb_done) {
   enrollment.enrollWithAdminCert(options, cb_done);
 };
 
@@ -140,7 +141,7 @@ fcw.enrollWithAdminCert = function(options, cb_done) {
 // Ledger Functions
 // ------------------------------------------------------------------------
 // Get Block Data
-fcw.query_block = function(obj, options, cb_done) {
+fcw.query_block = function (obj, options, cb_done) {
   query_peer.query_block(obj, options, cb_done);
 };
 
@@ -149,7 +150,7 @@ fcw.query_block = function(obj, options, cb_done) {
 // Channel Functions
 // ------------------------------------------------------------------------
 // Get Members on Channel
-fcw.query_channel_members = function(obj, options, cb_done) {
+fcw.query_channel_members = function (obj, options, cb_done) {
   query_peer.query_channel_members(obj, options, cb_done);
 };
 
@@ -168,8 +169,8 @@ fcw.query_channel_members = function(obj, options, cb_done) {
 				},
 	}
 */
-fcw.query_channel = function(obj, options, cb_done) {
-  query_peer.query_channel(obj, options, function(err, resp) {
+fcw.query_channel = function (obj, options, cb_done) {
+  query_peer.query_channel(obj, options, function (err, resp) {
     if (err != null) { //looks like an error with the request
       if (ha.switch_peer(obj, options) == null) { //try another peer
         logger.info('Retrying query on different peer');
@@ -185,18 +186,22 @@ fcw.query_channel = function(obj, options, cb_done) {
 };
 
 // Get list of installed cc's
-fcw.query_installed_cc = function(obj, options, cb_done) {
+fcw.query_installed_cc = function (obj, options, cb_done) {
   query_peer.query_installed_cc(obj, options, cb_done);
 };
 
 // get list of instantiated cc's
-fcw.query_instantiated_cc = function(obj, options, cb_done) {
+fcw.query_instantiated_cc = function (obj, options, cb_done) {
   query_peer.query_instantiated_cc(obj, options, cb_done);
 };
 
 // get list of channels
-fcw.query_list_channels = function(obj, options, cb_done) {
+fcw.query_list_channels = function (obj, options, cb_done) {
   query_peer.query_list_channels(obj, options, cb_done);
+};
+
+fcw.register_chaincode_event = function (obj, options, cb) {
+  return event_cc.register_chaincode_event(obj, options, cb);
 };
 
 module.exports = {
