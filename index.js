@@ -5,6 +5,7 @@ const log = require('./logger').getLogger('main');
 
 const demo = require('./routers/demo');
 const absEnroll = require('./fabric/api/enroll');
+const absEvent = require('./fabric/api/event');
 const absPrj = require('./routers/absProject');
 const absWorkflow = require('./routers/absWorkflow');
 const absProcess = require('./routers/absProcess');
@@ -31,7 +32,7 @@ app.use(bodyParser.json());
 // 设置请求头
 // application/json  接口返回json数据
 // charset=utf-8 解决json数据中中文乱码
-app.use('*', function(request, response, next) {
+app.use('*', function (request, response, next) {
   response.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });
   next();
 });
@@ -63,8 +64,13 @@ process.on('uncaughtException', err => {
   log.error(err);
 })
 
-app.listen(9010, function() {
+app.listen(9010, function () {
   log.info('Express is listening to http://localhost:9010');
 });
 
-absEnroll.enroll();
+absEnroll.enroll(() => {
+  absEvent.registerChaincodeEvent((error, payload) => {
+    // TODO
+  });
+});
+

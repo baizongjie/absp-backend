@@ -20,5 +20,9 @@ const basicFabricOpt = {
 module.exports = {
   getBasicFabricOpt: () => {
     return basicFabricOpt;
-  }
+  },
+
+  getChaincodeId: () => {
+    return chaincode_id;
+  },
 }

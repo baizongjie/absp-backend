@@ -21,7 +21,7 @@ module.exports = {
     }
   },
 
-  enroll: () => {
+  enroll: (callback) => {
     logger.info('First we enroll');
     fcw.enrollWithAdminCert(helper.makeEnrollmentOptionsUsingCert(), (enrollErr, enrollResp) => {
       logger.info('Enroll Success!!');
@@ -30,6 +30,9 @@ module.exports = {
       } else {
         enrollFlag = true;
         enrollInfo = enrollResp;
+      }
+      if (callback) {
+        callback();
       }
     });
   },
