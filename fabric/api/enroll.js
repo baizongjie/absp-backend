@@ -13,13 +13,6 @@ const fcw = require('../utils/fc_wrangler').func;
 let enrollFlag = false;
 let enrollInfo;
 
-const checkEnroll = failback => {
-  if (!enrollFlag) {
-    logger.error('The server has not enrolled yet...')
-    failback && failback("NOT enroll");
-  }
-}
-
 module.exports = {
   checkEnroll: failback => {
     if (!enrollFlag) {
