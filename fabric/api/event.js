@@ -22,9 +22,9 @@ module.exports = {
     const eventHub = fcw.register_chaincode_event(enroll.getEnrollInfo(), options, (eventString) => {
       const event = JSON.parse(eventString);
       logger.info('Received a event:', event.eventName);
+      logger.info('TxID:', event.txId);
       logger.info('Event payload:', JSON.stringify(event.payload));
-      logger.info('event no error');
-      callback(event.payload);
+      callback(event);
     });
   },
 }

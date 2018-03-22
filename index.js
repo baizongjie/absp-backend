@@ -69,7 +69,7 @@ app.listen(9010, function () {
 });
 
 absEnroll.enroll(() => {
-  absEvent.registerChaincodeEvent((error, payload) => {
+  absEvent.registerChaincodeEvent((event) => {
     // TODO
   });
 });
