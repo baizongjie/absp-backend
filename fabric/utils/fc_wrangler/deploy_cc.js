@@ -37,7 +37,9 @@ module.exports = function (logger) {
 		var request = {
 			targets: [client.newPeer(options.peer_urls[0], options.peer_tls_opts)],
 			chaincodePath: options.path_2_chaincode,							//rel path from /server/libs/src/ to chaincode folder ex: './marbles_chaincode'
+			metadataPath: options.metadata_path,
 			chaincodeId: options.chaincode_id,
+			chaincodeType: options.chaincode_type,
 			chaincodeVersion: options.chaincode_version,
 		};
 		logger.debug('[fcw] Sending install req', request);
@@ -108,7 +110,7 @@ module.exports = function (logger) {
 					var request = common.check_proposal_res(results, options.endorsed_hook);
 					return channel.sendTransaction(request);
 				}
-				).then(
+			).then(
 				function (response) {
 
 					// All good
@@ -130,7 +132,7 @@ module.exports = function (logger) {
 						throw response;
 					}
 				}
-				).catch(
+			).catch(
 				function (err) {
 					logger.error('[fcw] Error in instantiate catch block', typeof err, err);
 					var formatted = common.format_error_msg(err);
@@ -138,7 +140,7 @@ module.exports = function (logger) {
 					if (cb) return cb(formatted, null);
 					else return;
 				}
-				);
+			);
 		});
 	};
 
@@ -191,7 +193,7 @@ module.exports = function (logger) {
 					var request = common.check_proposal_res(results, options.endorsed_hook);
 					return channel.sendTransaction(request);
 				}
-				).then(
+			).then(
 				function (response) {
 
 					// All good
@@ -213,7 +215,7 @@ module.exports = function (logger) {
 						throw response;
 					}
 				}
-				).catch(
+			).catch(
 				function (err) {
 					logger.error('[fcw] Error in upgrade cc catch block', typeof err, err);
 					var formatted = common.format_error_msg(err);
@@ -221,7 +223,7 @@ module.exports = function (logger) {
 					if (cb) return cb(formatted, null);
 					else return;
 				}
-				);
+			);
 		});
 	};
 
