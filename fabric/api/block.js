@@ -59,7 +59,7 @@ module.exports = {
       });
 
       if (callback) {
-        callback(err);
+        callback();
       }
       return;
     }).catch(function (err) {
