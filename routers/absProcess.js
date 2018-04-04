@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const log = require('../logger').getLogger('absProject');
-const enrollApi = require('../fabric/api/enroll');
+const log = require('../logger').getLogger('absProcess');
 const processApi = require('../fabric/api/process');
 
 router.post('/process/start', (req, res, next) => {
