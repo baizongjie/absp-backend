@@ -47,7 +47,8 @@ module.exports = {
             if (error) {
               return;
             }
-            const { organization } = certValues;
+            const { commonName } = certValues;
+            const organization = commonName.substring(commonName.lastIndexOf('@'));
             const orgInfo = {
               organization,
               publicKey,
