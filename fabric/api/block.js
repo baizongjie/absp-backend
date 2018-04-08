@@ -29,21 +29,21 @@ module.exports = {
     channel.getGenesisBlock(request).then(returnBlock => {
       orgInfoList = [];
 
-      const rootCerts = [];
+      const adminCerts = [];
       const blockData = blockDecoder.decodeBlock(returnBlock);
       const groupData = blockData.data.data[0].payload.data.config.channel_group.groups.Application.groups;
       const groupKeys = Object.keys(groupData);
       groupKeys.forEach(key => {
-        rootCerts.push(groupData[key].values.MSP.value.config.root_certs[0]);
+        adminCerts.push(groupData[key].values.MSP.value.config.admins[0]);
       });
 
-      rootCerts.forEach(rootCert => {
-        pem.getPublicKey(rootCert, (error, keyInfo) => {
+      adminCerts.forEach(adminCert => {
+        pem.getPublicKey(adminCert, (error, keyInfo) => {
           if (error) {
             return;
           }
           const { publicKey } = keyInfo;
-          pem.readCertificateInfo(rootCert, (error, certValues) => {
+          pem.readCertificateInfo(adminCert, (error, certValues) => {
             if (error) {
               return;
             }
