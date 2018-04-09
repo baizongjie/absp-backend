@@ -27,6 +27,9 @@ module.exports = function (logger) {
 			txId: null,												//apparently this is null for queries now
 		};
 		logger.debug('[fcw] Sending query req:', request);
+		if (options.transient_map) {
+			request.transientMap = options.transient_map;
+		}
 
 		channel.queryByChaincode(request).then(function (response_payloads) {
 			var formatted = format_query_resp(response_payloads);

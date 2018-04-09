@@ -47,6 +47,9 @@ module.exports = function (g_options, logger) {
 			txId: client.newTransactionID(),
 		};
 		logger.debug('[fcw] Sending invoke req', request);
+		if (options.transient_map) {
+			request.transientMap = options.transient_map;
+		}
 
 		// ---------------- Setup EventHub ---------------- //
 		setup_event_hub(options);
