@@ -6,7 +6,7 @@ const helper = require('../utils/helper').func; //set the config file name here
 const fcw = require('../utils/fc_wrangler').func;
 
 const enroll = require('./enroll');
-const blockDecoder = require('../../node_modules/fabric-client/lib/BlockDecoder.js');
+const blockDecoder = require('../utils/blockDecoder');
 
 let orgInfoList = [];
 
