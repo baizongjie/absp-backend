@@ -12,6 +12,7 @@ const absPrj = require('./routers/absProject');
 const absWorkflow = require('./routers/absWorkflow');
 const absProcess = require('./routers/absProcess');
 const fileUpload = require('./routers/fileUpload');
+const absCrypto = require('./routers/absCrypto');
 // const chainBlockRouter = require('./routers/chainBlock');
 
 function getClientIp(req) {
@@ -49,6 +50,7 @@ app.use('/api/v1/', absPrj);
 app.use('/api/v1/', absWorkflow);
 app.use('/api/v1/', absProcess);
 app.use('/api/v1/', fileUpload);
+app.use('/api/v1/', absCrypto);
 // app.use('/api/v1/', chainBlockRouter);
 
 //错误处理
