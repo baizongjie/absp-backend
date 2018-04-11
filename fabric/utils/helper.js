@@ -344,7 +344,7 @@ helper.getAdminSignedCertPEM = function (orgName) {
 helper.getRsaPrivateKeyCertPEM = function (orgName) {
   if (orgName && helper.creds.organizations && helper.creds.organizations[orgName]) {
     if (!helper.creds.organizations[orgName].rsaPrivateKey) {
-      throw new Error('Admin certificate is not found in the creds json file: ' + orgName);
+      throw new Error('RSA private key is not found in the creds json file: ' + orgName);
     } else {
       return loadPem(helper.creds.organizations[orgName].rsaPrivateKey);
     }
@@ -358,7 +358,7 @@ helper.getRsaPrivateKeyCertPEM = function (orgName) {
 helper.getRsaPublicKeyCertPEM = function (orgName) {
   if (orgName && helper.creds.organizations && helper.creds.organizations[orgName]) {
     if (!helper.creds.organizations[orgName].rsaPublicKey) {
-      throw new Error('Admin certificate is not found in the creds json file: ' + orgName);
+      throw new Error('RSA public key is not found in the creds json file: ' + orgName);
     } else {
       return loadPem(helper.creds.organizations[orgName].rsaPublicKey);
     }
