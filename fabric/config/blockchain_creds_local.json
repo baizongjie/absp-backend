@@ -45,10 +45,10 @@
 				"path": "./crypto/prebaked/PeerAdminCert.pem"
 			},
 			"rsaPublicKey": {
-				"path": "./crypto/prebaked/rsa_key_pub"
+				"path": "./crypto/prebaked/rsa_key_pub.pem"
 			},
 			"rsaPrivateKey": {
-				"path": "./crypto/prebaked/rsa_key_priv"
+				"path": "./crypto/prebaked/rsa_key_priv.pem"
 			}
 		}
 	},
