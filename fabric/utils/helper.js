@@ -23,12 +23,12 @@ logger.info('Loaded creds file', helper.creds_path); //path to the blockchain cr
 
 
 // get network id
-helper.getNetworkName = function() {
+helper.getNetworkName = function () {
   return helper.creds.name;
 };
 
 // get cred file name
-helper.getNetworkCredFileName = function() {
+helper.getNetworkCredFileName = function () {
   return helper.config.cred_filename;
 };
 
@@ -37,7 +37,7 @@ helper.getNetworkCredFileName = function() {
 // Peer Getters
 // --------------------------------------------------------------------------------
 // find the first ca in the peers field for this org
-helper.getFirstPeerName = function(ch) {
+helper.getFirstPeerName = function (ch) {
   const channel = helper.creds.channels[ch];
   if (channel && channel.peers) {
     const peers = Object.keys(channel.peers);
@@ -49,7 +49,7 @@ helper.getFirstPeerName = function(ch) {
 };
 
 // get a peer object
-helper.getPeer = function(key) {
+helper.getPeer = function (key) {
   if (key === undefined || key == null) {
     throw new Error('Peer key not passed');
   } else {
@@ -62,7 +62,7 @@ helper.getPeer = function(key) {
 };
 
 // get a peer's grpc url
-helper.getPeersUrl = function(key) {
+helper.getPeersUrl = function (key) {
   if (key === undefined || key == null) {
     throw new Error('Peer key not passed');
   } else {
@@ -76,7 +76,7 @@ helper.getPeersUrl = function(key) {
 };
 
 // get all peers grpc urls and event urls, on this channel
-helper.getAllPeerUrls = function(channelId) {
+helper.getAllPeerUrls = function (channelId) {
   let ret = {
     urls: [],
     eventUrls: []
@@ -91,7 +91,7 @@ helper.getAllPeerUrls = function(channelId) {
 };
 
 // get a peer's grpc event url
-helper.getPeerEventUrl = function(key) {
+helper.getPeerEventUrl = function (key) {
   if (key === undefined || key == null) {
     throw new Error('Peer key not passed');
   } else {
@@ -105,7 +105,7 @@ helper.getPeerEventUrl = function(key) {
 };
 
 // get a peer's tls options
-helper.getPeerTlsCertOpts = function(key) {
+helper.getPeerTlsCertOpts = function (key) {
   if (key === undefined || key == null) {
     throw new Error('Peer\'s key not passed');
   } else {
@@ -119,7 +119,7 @@ helper.getPeerTlsCertOpts = function(key) {
 // Certificate Authorities Getters
 // --------------------------------------------------------------------------------
 // find the first ca in the certificateAuthorities field for this org
-helper.getFirstCaName = function(orgName) {
+helper.getFirstCaName = function (orgName) {
   const org = helper.creds.organizations[orgName];
   if (org && org.certificateAuthorities) {
     if (org.certificateAuthorities && org.certificateAuthorities[0]) {
@@ -130,7 +130,7 @@ helper.getFirstCaName = function(orgName) {
 };
 
 // get a ca obj
-helper.getCA = function(key) {
+helper.getCA = function (key) {
   if (key === undefined || key == null) {
     throw new Error('CA key not passed');
   } else {
@@ -143,7 +143,7 @@ helper.getCA = function(key) {
 };
 
 // get a ca's http url
-helper.getCasUrl = function(key) {
+helper.getCasUrl = function (key) {
   if (key === undefined || key == null) {
     throw new Error('CA key not passed');
   } else {
@@ -157,7 +157,7 @@ helper.getCasUrl = function(key) {
 };
 
 // get all the ca http urls
-helper.getAllCaUrls = function() {
+helper.getAllCaUrls = function () {
   let ret = [];
   for (let id in helper.creds.certificateAuthorities) {
     ret.push(helper.creds.certificateAuthorities[id].url);
@@ -166,7 +166,7 @@ helper.getAllCaUrls = function() {
 };
 
 // get a ca's name, could be null
-helper.getCaName = function(key) {
+helper.getCaName = function (key) {
   if (key === undefined || key == null) {
     throw new Error('CA key not passed');
   } else {
@@ -180,7 +180,7 @@ helper.getCaName = function(key) {
 };
 
 // get a ca's tls options
-helper.getCaTlsCertOpts = function(key) {
+helper.getCaTlsCertOpts = function (key) {
   if (key === undefined || key == null) {
     throw new Error('CAs key not passed');
   } else {
@@ -190,7 +190,7 @@ helper.getCaTlsCertOpts = function(key) {
 };
 
 // get an enrollment user
-helper.getEnrollObj = function(caKey, user_index) {
+helper.getEnrollObj = function (caKey, user_index) {
   if (caKey === undefined || caKey == null) {
     throw new Error('CA key not passed');
   } else {
@@ -207,7 +207,7 @@ helper.getEnrollObj = function(caKey, user_index) {
 // Orderer Getters
 // --------------------------------------------------------------------------------
 // get the first orderer in the channels field
-helper.getFirstOrdererName = function(ch) {
+helper.getFirstOrdererName = function (ch) {
   const channel = helper.creds.channels[ch];
   if (channel && channel.orderers && channel.orderers[0]) {
     return channel.orderers[0];
@@ -216,7 +216,7 @@ helper.getFirstOrdererName = function(ch) {
 };
 
 // get an orderer object
-helper.getOrderer = function(key) {
+helper.getOrderer = function (key) {
   if (key === undefined || key == null) {
     throw new Error('Orderers key not passed');
   } else {
@@ -229,7 +229,7 @@ helper.getOrderer = function(key) {
 };
 
 // get an orderer's grpc url
-helper.getOrderersUrl = function(key) {
+helper.getOrderersUrl = function (key) {
   if (key === undefined || key == null) {
     throw new Error('Orderers key not passed');
   } else {
@@ -243,7 +243,7 @@ helper.getOrderersUrl = function(key) {
 };
 
 // get a orderer's tls options
-helper.getOrdererTlsCertOpts = function(key) {
+helper.getOrdererTlsCertOpts = function (key) {
   if (key === undefined || key == null) {
     throw new Error('Orderer\'s key not passed');
   } else {
@@ -282,7 +282,7 @@ function buildTlsOpts(node_obj) {
 }
 
 // find the first org name in the organization field
-helper.getFirstOrg = function() {
+helper.getFirstOrg = function () {
   if (helper.creds.organizations) {
     const orgs = Object.keys(helper.creds.organizations);
     if (orgs && orgs[0]) {
@@ -293,7 +293,7 @@ helper.getFirstOrg = function() {
 };
 
 // find the org name in the client field
-helper.getClientOrg = function() {
+helper.getClientOrg = function () {
   if (helper.creds.client && helper.creds.client.organization) {
     return helper.creds.client.organization;
   }
@@ -301,7 +301,7 @@ helper.getClientOrg = function() {
 };
 
 // get this org's msp id
-helper.getOrgsMSPid = function(key) {
+helper.getOrgsMSPid = function (key) {
   if (key === undefined || key == null) {
     throw new Error('Org key not passed');
   } else {
@@ -314,7 +314,7 @@ helper.getOrgsMSPid = function(key) {
 };
 
 // get an admin private key PEM certificate
-helper.getAdminPrivateKeyPEM = function(orgName) {
+helper.getAdminPrivateKeyPEM = function (orgName) {
   if (orgName && helper.creds.organizations && helper.creds.organizations[orgName]) {
     if (!helper.creds.organizations[orgName].adminPrivateKey) {
       throw new Error('Admin private key is not found in the creds json file: ' + orgName);
@@ -327,12 +327,40 @@ helper.getAdminPrivateKeyPEM = function(orgName) {
 };
 
 // get an admin's signed cert PEM
-helper.getAdminSignedCertPEM = function(orgName) {
+helper.getAdminSignedCertPEM = function (orgName) {
   if (orgName && helper.creds.organizations && helper.creds.organizations[orgName]) {
     if (!helper.creds.organizations[orgName].signedCert) {
       throw new Error('Admin certificate is not found in the creds json file: ' + orgName);
     } else {
       return loadPem(helper.creds.organizations[orgName].signedCert);
+    }
+  } else {
+    throw new Error('Cannot find org.', orgName);
+  }
+  return null;
+};
+
+// get an rsa private key cert PEM
+helper.getRsaPrivateKeyCertPEM = function (orgName) {
+  if (orgName && helper.creds.organizations && helper.creds.organizations[orgName]) {
+    if (!helper.creds.organizations[orgName].rsaPrivateKey) {
+      throw new Error('Admin certificate is not found in the creds json file: ' + orgName);
+    } else {
+      return loadPem(helper.creds.organizations[orgName].rsaPrivateKey);
+    }
+  } else {
+    throw new Error('Cannot find org.', orgName);
+  }
+  return null;
+};
+
+// get an rsa public key cert PEM
+helper.getRsaPublicKeyCertPEM = function (orgName) {
+  if (orgName && helper.creds.organizations && helper.creds.organizations[orgName]) {
+    if (!helper.creds.organizations[orgName].rsaPublicKey) {
+      throw new Error('Admin certificate is not found in the creds json file: ' + orgName);
+    } else {
+      return loadPem(helper.creds.organizations[orgName].rsaPublicKey);
     }
   } else {
     throw new Error('Cannot find org.', orgName);
@@ -352,7 +380,7 @@ function loadPem(obj) {
 }
 
 // get the channel id on network for marbles
-helper.getChannelId = function() {
+helper.getChannelId = function () {
   if (helper.creds && helper.creds.channels) {
     var channels = Object.keys(helper.creds.channels);
     if (channels[0]) {
@@ -363,7 +391,7 @@ helper.getChannelId = function() {
 };
 
 // get the chaincode id on network
-helper.getChaincodeId = function() {
+helper.getChaincodeId = function () {
   var channel = helper.getChannelId();
   if (channel && helper.creds.channels[channel] && helper.creds.channels[channel].chaincodes) {
     var chaincode = Object.keys(helper.creds.channels[channel].chaincodes);
@@ -374,7 +402,7 @@ helper.getChaincodeId = function() {
 };
 
 // get the chaincode version on network
-helper.getChaincodeVersion = function() {
+helper.getChaincodeVersion = function () {
   var channel = helper.getChannelId();
   var chaincodeId = helper.getChaincodeId();
   if (channel && chaincodeId) {
@@ -385,7 +413,7 @@ helper.getChaincodeVersion = function() {
 };
 
 // get the chaincode id on network
-helper.getBlockDelay = function() {
+helper.getBlockDelay = function () {
   let ret = 1000;
   var channel = helper.getChannelId();
   if (helper.creds.channels && helper.creds.channels[channel] && helper.creds.channels[channel]['x-blockDelay']) {
@@ -397,7 +425,7 @@ helper.getBlockDelay = function() {
 };
 
 // get key value store location
-helper.getKvsPath = function(opts) {
+helper.getKvsPath = function (opts) {
   /*
   const id = helper.makeUniqueId();
   const default_path = path.join(os.homedir(), '.hfc-key-store/', id);
@@ -431,7 +459,7 @@ helper.getKvsPath = function(opts) {
       const public_key = 'cd96d5260ad4757551ed4a5a991e62130f8008a0bf996e4e4b84cd097a747fec-pub';
       fs.createReadStream(custom_path + private_key).pipe(fs.createWriteStream(default_path2 + private_key));
       fs.createReadStream(custom_path + public_key).pipe(fs.createWriteStream(default_path2 + public_key));
-    } catch (e) {}
+    } catch (e) { }
   }
 };
 
@@ -440,22 +468,22 @@ helper.getKvsPath = function(opts) {
 // Config Getters
 // --------------------------------------------------------------------------------
 // get the marble owner names
-helper.getMarbleUsernames = function() {
+helper.getMarbleUsernames = function () {
   return getMarblesField('usernames');
 };
 
 // get the marbles trading company name
-helper.getCompanyName = function() {
+helper.getCompanyName = function () {
   return getMarblesField('company');
 };
 
 // get the marble's server port number
-helper.getMarblesPort = function() {
+helper.getMarblesPort = function () {
   return getMarblesField('port');
 };
 
 // get the status of marbles previous startup
-helper.getEventsSetting = function() {
+helper.getEventsSetting = function () {
   if (helper.config['use_events']) {
     return helper.config['use_events'];
   }
@@ -463,7 +491,7 @@ helper.getEventsSetting = function() {
 };
 
 // get the re-enrollment period in seconds
-helper.getKeepAliveMs = function() {
+helper.getKeepAliveMs = function () {
   var sec = getMarblesField('keep_alive_secs');
   if (!sec) sec = 30; //default to 30 seconds
   return (sec * 1000);
@@ -488,14 +516,14 @@ function getMarblesField(marbles_field) {
 // --------------------------------------------------------------------------------
 // Build Options
 // --------------------------------------------------------------------------------
-helper.makeUniqueId = function() {
+helper.makeUniqueId = function () {
   const channel = helper.getChannelId();
   const first_peer = helper.getFirstPeerName(channel);
   return 'marbles-' + helper.getNetworkName() + '-' + channel + '-' + first_peer;
 };
 
 // build the marbles lib module options
-helper.makeMarblesLibOptions = function() {
+helper.makeMarblesLibOptions = function () {
   const channel = helper.getChannelId();
   const org_2_use = helper.getClientOrg();
   const first_ca = helper.getFirstCaName(org_2_use);
@@ -515,7 +543,7 @@ helper.makeMarblesLibOptions = function() {
 };
 
 // build the enrollment options for using an enroll ID
-helper.makeEnrollmentOptions = function(userIndex) {
+helper.makeEnrollmentOptions = function (userIndex) {
   if (userIndex === undefined || userIndex == null) {
     throw new Error('User index not passed');
   } else {
@@ -545,7 +573,7 @@ helper.makeEnrollmentOptions = function(userIndex) {
 };
 
 // build the enrollment options using an admin cert
-helper.makeEnrollmentOptionsUsingCert = function() {
+helper.makeEnrollmentOptionsUsingCert = function () {
 
   const channel = helper.getChannelId();
   const org_2_use = helper.getClientOrg();
@@ -567,7 +595,7 @@ helper.makeEnrollmentOptionsUsingCert = function() {
 };
 
 // write new settings
-helper.write = function(obj) {
+helper.write = function (obj) {
   console.log('saving the creds file has been disabled temporarily');
 
   const channel = helper.getChannelId();
@@ -617,7 +645,7 @@ helper.write = function(obj) {
 // Input Checking
 // --------------------------------------------------------------------------------
 // check if user has changed the settings from the default ones - returns error array when there is a problem
-helper.checkConfig = function() {
+helper.checkConfig = function () {
   let errors = [];
   if (helper.getNetworkName() === 'Place Holder Network Name') {
     console.log('\n');
@@ -644,7 +672,7 @@ helper.checkConfig = function() {
 };
 
 // check if marbles UI and marbles chaincode work together
-helper.errorWithVersions = function(v) {
+helper.errorWithVersions = function (v) {
   var version = package_json.version;
   if (!v || !v.parsed) v = {
     parsed: '0.x.x'
@@ -667,7 +695,7 @@ helper.errorWithVersions = function(v) {
 };
 
 // check if config has missing entries
-helper.check_for_missing = function() {
+helper.check_for_missing = function () {
   let errors = [];
   const channel = helper.getChannelId();
 
@@ -717,7 +745,7 @@ helper.check_for_missing = function() {
 };
 
 // check if config has protocol errors - returns error array when there is a problem
-helper.check_protocols = function() {
+helper.check_protocols = function () {
   let errors = [];
   const channel = helper.getChannelId();
   const org_2_use = helper.getClientOrg();

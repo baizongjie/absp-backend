@@ -43,6 +43,12 @@
 			},
 			"signedCert": {
 				"path": "./crypto/prebaked/PeerAdminCert.pem"
+			},
+			"rsaPublicKey": {
+				"path": "./crypto/prebaked/rsa_key_pub"
+			},
+			"rsaPrivateKey": {
+				"path": "./crypto/prebaked/rsa_key_priv"
 			}
 		}
 	},

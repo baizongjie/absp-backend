@@ -6,12 +6,13 @@ const log = require('./logger').getLogger('main');
 const demo = require('./routers/demo');
 const chainEnroll = require('./fabric/api/enroll');
 const chainEvent = require('./fabric/api/event');
-const chainBlock = require('./fabric/api/block');
+// const chainBlock = require('./fabric/api/block');
+const crypto = require('./fabric/api/crypto');
 const absPrj = require('./routers/absProject');
 const absWorkflow = require('./routers/absWorkflow');
 const absProcess = require('./routers/absProcess');
 const fileUpload = require('./routers/fileUpload');
-const chainBlockRouter = require('./routers/chainBlock');
+// const chainBlockRouter = require('./routers/chainBlock');
 
 function getClientIp(req) {
   return (
@@ -48,7 +49,7 @@ app.use('/api/v1/', absPrj);
 app.use('/api/v1/', absWorkflow);
 app.use('/api/v1/', absProcess);
 app.use('/api/v1/', fileUpload);
-app.use('/api/v1/', chainBlockRouter);
+// app.use('/api/v1/', chainBlockRouter);
 
 //错误处理
 app.use((err, req, res, next) => {
@@ -73,7 +74,10 @@ app.listen(9010, function () {
 
 chainEnroll.enroll(() => {
   // 完成enroll后获取机构公钥信息清单并缓存
-  chainBlock.reloadOrgAndPublicKeyList();
+  // chainBlock.reloadOrgAndPublicKeyList();
+
+  // enroll成功后，发送RSA公钥信息
+  crypto.saveRsaPubKey();
 
   chainEvent.registerChaincodeEvent((event) => {
     // TODO
