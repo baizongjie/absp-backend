@@ -40,7 +40,7 @@ module.exports = {
       console.log('---------------------------------------');
     });
   },
-  /** RSA数据加密 */
+  /** RSA数据加密（JSON） */
   rsaEncrypt: (reqInfo, callback) => {
     enroll.checkEnroll(callback);
 
@@ -56,15 +56,20 @@ module.exports = {
     const targetOrgsJSON = JSON.stringify(reqInfo.targetOrgs);
     const modifyTime = new Date().toLocaleString("zh-CN");
 
+    const oriDataBuffer = new Buffer(originDataJSON);
+    const transientMap = {
+      dataString: buffer,
+    };
+
     var opts = {
       ...basic.getBasicFabricOpt(),
       cc_function: 'encrypt_data',
       cc_args: [
         stateID,
-        originDataJSON,
         targetOrgsJSON,
         modifyTime
       ],
+      transient_map: transientMap,
     };
 
     fcw.invoke_chaincode(enroll.getEnrollInfo(), opts, function (err, resp) {
@@ -74,7 +79,7 @@ module.exports = {
       callback(err, stateID);
     });
   },
-  /** 根据ID查询项目 */
+  /** RSA解密数据（JSON） */
   rsaDecrypt: (stateID, callback) => {
     enroll.checkEnroll(callback);
 
