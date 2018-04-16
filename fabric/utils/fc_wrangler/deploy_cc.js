@@ -36,12 +36,19 @@ module.exports = function (logger) {
 		// send proposal to endorser
 		var request = {
 			targets: [client.newPeer(options.peer_urls[0], options.peer_tls_opts)],
-			chaincodePath: options.path_2_chaincode,							//rel path from /server/libs/src/ to chaincode folder ex: './marbles_chaincode'
-			metadataPath: options.metadata_path,
+			chaincodePath: options.path_2_chaincode,
 			chaincodeId: options.chaincode_id,
-			chaincodeType: options.chaincode_type,
 			chaincodeVersion: options.chaincode_version,
 		};
+		if (options.metadata_path) {
+			request.metadataPath = options.metadata_path;
+		}
+		if (options.chaincode_type) {
+			request.chaincodeType = options.chaincode_type;
+		}
+		if (options.chaincode_package) {
+			request.chaincodePackage = options.chaincode_package;
+		}
 		logger.debug('[fcw] Sending install req', request);
 
 		client.installChaincode(request).then(function (results) {
@@ -229,4 +236,3 @@ module.exports = function (logger) {
 
 	return deploy_cc;
 };
-
